@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About — Saloon.world</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Instrument+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --cream:#F5F2EC;--ink:#1A1814;--ink-muted:#5C5850;
+  --gold:#B8A06A;--gold-light:#D4BC8A;
+  --border:rgba(26,24,20,0.12);--dark:#1A1814;
+}
+html{scroll-behavior:smooth}
+body{background:var(--cream);color:var(--ink);font-family:"Instrument Sans",sans-serif;font-weight:300}
+
+/* ─── NAV ─── */
+nav{
+  position:sticky;top:0;z-index:200;
+  background:rgba(245,242,236,0.96);backdrop-filter:blur(12px);
+  border-bottom:0.5px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 3rem;height:64px;
+}
+.nav-logo{font-family:"Cormorant Garamond",serif;font-size:1.05rem;font-weight:300;letter-spacing:0.22em;text-transform:uppercase;color:var(--ink);text-decoration:none}
+.nav-logo span{color:var(--gold)}
+.nav-links{display:flex;gap:0;list-style:none}
+.nav-links a{display:block;padding:0 1.4rem;height:64px;line-height:64px;font-size:0.7rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--ink-muted);text-decoration:none;border-bottom:2px solid transparent;transition:all 0.2s}
+.nav-links a:hover,.nav-links a.active{color:var(--ink);border-bottom-color:var(--gold)}
+.nav-btn{background:var(--ink);color:var(--cream);border:none;padding:0.55rem 1.4rem;font-family:"Instrument Sans",sans-serif;font-size:0.68rem;letter-spacing:0.18em;text-transform:uppercase;cursor:pointer;transition:background 0.2s}
+.nav-btn:hover{background:#2D2A24}
+
+/* ─── HERO ─── */
+.hero{
+  height:70vh;min-height:480px;
+  background:var(--dark);
+  position:relative;overflow:hidden;
+  display:flex;align-items:flex-end;
+}
+
+/* Photo placeholder — zastąp src zdjęciem */
+.hero-photo{
+  position:absolute;inset:0;
+  width:100%;height:100%;object-fit:cover;
+  opacity:0.55;
+  /* PLACEHOLDER — wstaw swoje zdjęcie jako src na img poniżej */
+}
+.hero-photo-placeholder{
+  position:absolute;inset:0;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:1rem;
+  border:1px dashed rgba(184,160,106,0.25);
+  margin:3rem;
+}
+.hero-photo-placeholder-label{
+  font-size:0.62rem;letter-spacing:0.28em;text-transform:uppercase;
+  color:rgba(184,160,106,0.4);
+}
+.hero-photo-placeholder-icon{
+  font-size:2.5rem;color:rgba(184,160,106,0.2);
+}
+.hero-photo-placeholder-note{
+  font-family:"Cormorant Garamond",serif;font-style:italic;
+  font-size:1rem;color:rgba(184,160,106,0.3);
+}
+
+.hero-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(to top,rgba(26,24,20,0.85) 0%,rgba(26,24,20,0.1) 60%,transparent 100%);
+}
+.hero-content{
+  position:relative;z-index:2;
+  padding:3rem;
+  width:100%;
+}
+.hero-eyebrow{font-size:0.62rem;letter-spacing:0.3em;text-transform:uppercase;color:var(--gold-light);margin-bottom:0.75rem}
+.hero-name{
+  font-family:"Cormorant Garamond",serif;
+  font-size:clamp(2.5rem,5vw,4.5rem);
+  font-weight:300;color:var(--cream);line-height:1.05;
+}
+.hero-name em{font-style:italic;color:var(--gold-light)}
+.hero-title-line{
+  font-size:0.78rem;letter-spacing:0.12em;text-transform:uppercase;
+  color:rgba(245,242,236,0.45);margin-top:0.75rem;
+}
+
+/* ─── MAIN GRID ─── */
+.about-grid{
+  display:grid;grid-template-columns:1fr 400px;
+  gap:0;max-width:1440px;margin:0 auto;
+}
+
+/* ─── LEFT — BIO ─── */
+.bio-col{padding:5rem 5rem 5rem 3rem;border-right:0.5px solid var(--border)}
+
+.section-eyebrow{
+  font-size:0.6rem;letter-spacing:0.3em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:1.5rem;
+}
+.section-headline{
+  font-family:"Cormorant Garamond",serif;
+  font-size:clamp(1.8rem,2.5vw,2.6rem);
+  font-weight:300;line-height:1.15;margin-bottom:2rem;
+}
+.section-headline em{font-style:italic}
+
+/* Bio text placeholder */
+.bio-text-placeholder{
+  border:1px dashed var(--border);padding:2rem;
+  margin-bottom:2.5rem;
+  display:flex;flex-direction:column;gap:0.75rem;
+}
+.bio-text-placeholder p{
+  height:0.85rem;background:rgba(26,24,20,0.06);border-radius:1px;
+}
+.bio-text-placeholder p:last-child{width:60%}
+.bio-placeholder-label{
+  font-size:0.6rem;letter-spacing:0.22em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:0.5rem;
+}
+
+.divider{width:40px;height:0.5px;background:var(--gold);margin:2.5rem 0}
+
+/* Curator's note placeholder */
+.curator-block{
+  border-left:2px solid var(--gold);padding-left:1.5rem;margin-bottom:3rem;
+}
+.curator-label{font-size:0.6rem;letter-spacing:0.25em;text-transform:uppercase;color:var(--gold);margin-bottom:0.75rem}
+.curator-text-placeholder{
+  font-family:"Cormorant Garamond",serif;font-style:italic;
+  font-size:1.1rem;line-height:1.75;
+  color:rgba(26,24,20,0.2);
+  user-select:none;
+}
+
+/* Stats row */
+.stats-row{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:0;margin-top:3rem;
+  border-top:0.5px solid var(--border);
+  border-left:0.5px solid var(--border);
+}
+.stat{
+  padding:1.5rem;
+  border-right:0.5px solid var(--border);
+  border-bottom:0.5px solid var(--border);
+}
+.stat-number{
+  font-family:"Cormorant Garamond",serif;
+  font-size:2.2rem;font-weight:300;color:var(--ink);
+  line-height:1;margin-bottom:0.4rem;
+}
+.stat-number em{font-style:italic;color:var(--gold)}
+.stat-label{font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--ink-muted)}
+
+/* ─── RIGHT — PHOTO SIDEBAR ─── */
+.photo-col{padding:3rem 3rem 3rem 2.5rem;display:flex;flex-direction:column;gap:2px}
+
+.photo-slot{
+  position:relative;background:var(--dark);
+  aspect-ratio:4/5;overflow:hidden;
+  display:flex;align-items:center;justify-content:center;
+}
+.photo-slot:first-child{aspect-ratio:3/4}
+.photo-slot img{width:100%;height:100%;object-fit:cover;opacity:0.7}
+
+.photo-slot-placeholder{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:0.6rem;padding:2rem;text-align:center;
+  border:1px dashed rgba(184,160,106,0.2);
+  margin:1rem;flex:1;
+  width:calc(100% - 2rem);
+}
+.photo-slot-placeholder-icon{font-size:1.8rem;color:rgba(184,160,106,0.25)}
+.photo-slot-placeholder-text{font-size:0.62rem;letter-spacing:0.2em;text-transform:uppercase;color:rgba(184,160,106,0.3)}
+
+/* ─── ARCHIVE SECTION ─── */
+.archive-section{
+  border-top:0.5px solid var(--border);
+  padding:5rem 3rem;
+}
+.archive-header{
+  display:flex;justify-content:space-between;align-items:flex-end;
+  margin-bottom:3rem;
+}
+.archive-header h2{
+  font-family:"Cormorant Garamond",serif;font-size:2rem;font-weight:300;
+}
+.archive-header h2 em{font-style:italic}
+.archive-note{font-size:0.72rem;letter-spacing:0.1em;color:var(--ink-muted)}
+
+/* Archive grid — dla zdjęć z archiwum */
+.archive-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:2px;
+}
+.archive-slot{
+  aspect-ratio:1;background:var(--dark);
+  position:relative;overflow:hidden;
+  display:flex;align-items:center;justify-content:center;
+}
+.archive-slot img{width:100%;height:100%;object-fit:cover;opacity:0.6;transition:opacity 0.3s}
+.archive-slot:hover img{opacity:0.85}
+.archive-slot-placeholder{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.4rem;
+}
+.archive-slot-placeholder-icon{color:rgba(184,160,106,0.15);font-size:1.2rem}
+.archive-slot-n{
+  font-size:0.55rem;letter-spacing:0.2em;text-transform:uppercase;
+  color:rgba(184,160,106,0.2);
+}
+
+/* ─── CTA STRIP ─── */
+.cta-strip{
+  background:var(--dark);padding:5rem 3rem;
+  display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;
+}
+.cta-left h2{
+  font-family:"Cormorant Garamond",serif;font-size:2.5rem;font-weight:300;
+  color:var(--cream);line-height:1.15;margin-bottom:1rem;
+}
+.cta-left h2 em{font-style:italic;color:var(--gold-light)}
+.cta-left p{font-size:0.85rem;color:rgba(245,242,236,0.45);line-height:1.8}
+.cta-right{display:flex;flex-direction:column;gap:0.75rem}
+.btn-primary{
+  background:var(--cream);color:var(--ink);border:none;
+  padding:1rem 2rem;font-family:"Instrument Sans",sans-serif;
+  font-size:0.72rem;letter-spacing:0.2em;text-transform:uppercase;
+  cursor:pointer;transition:background 0.2s;text-align:center;
+  text-decoration:none;display:block;
+}
+.btn-primary:hover{background:var(--gold-light)}
+.btn-secondary{
+  background:transparent;color:var(--cream);
+  border:0.5px solid rgba(245,242,236,0.2);
+  padding:1rem 2rem;font-family:"Instrument Sans",sans-serif;
+  font-size:0.72rem;letter-spacing:0.2em;text-transform:uppercase;
+  cursor:pointer;transition:all 0.2s;text-align:center;
+  text-decoration:none;display:block;
+}
+.btn-secondary:hover{border-color:rgba(245,242,236,0.6)}
+
+/* ─── FOOTER ─── */
+footer{
+  background:var(--dark);padding:3rem;
+  display:flex;align-items:center;justify-content:space-between;
+  border-top:0.5px solid rgba(245,242,236,0.08);
+}
+.footer-logo{font-family:"Cormorant Garamond",serif;font-size:0.9rem;font-weight:300;letter-spacing:0.25em;text-transform:uppercase;color:var(--cream)}
+.footer-logo span{color:var(--gold)}
+.footer-note{font-size:0.68rem;color:rgba(245,242,236,0.3);letter-spacing:0.06em}
+
+/* ─── RESPONSIVE ─── */
+@media(max-width:960px){
+  nav{padding:0 1.5rem}
+  .nav-links{display:none}
+  .about-grid{grid-template-columns:1fr}
+  .bio-col{padding:3rem 1.5rem;border-right:none;border-bottom:0.5px solid var(--border)}
+  .photo-col{padding:2rem 1.5rem;flex-direction:row;flex-wrap:wrap}
+  .photo-slot{flex:1;min-width:45%}
+  .archive-grid{grid-template-columns:repeat(2,1fr)}
+  .cta-strip{grid-template-columns:1fr;gap:2rem;padding:3rem 1.5rem}
+  .hero-content{padding:2rem 1.5rem}
+  .archive-section{padding:3rem 1.5rem}
+  footer{flex-direction:column;gap:1rem;text-align:center;padding:2rem 1.5rem}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="/" class="nav-logo">SALOON<span>.</span>WORLD</a>
+  <ul class="nav-links">
+    <li><a href="saloon_browse.html">Browse</a></li>
+    <li><a href="#">Sell</a></li>
+    <li><a href="#">Stories</a></li>
+    <li><a href="saloon_about.html" class="active">About</a></li>
+  </ul>
+  <button class="nav-btn">List a Vehicle</button>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <!-- 
+    ZDJĘCIE GŁÓWNE (hero)
+    Zastąp placeholder swoim zdjęciem:
+    <img class="hero-photo" src="twoje-zdjecie.jpg" alt="Founder">
+  -->
+  <div class="hero-photo-placeholder">
+    <div class="hero-photo-placeholder-icon">◻</div>
+    <div class="hero-photo-placeholder-label">Hero photo</div>
+    <div class="hero-photo-placeholder-note">Portrait / lifestyle shot — sesja zdjęciowa</div>
+  </div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <p class="hero-eyebrow">The Curator</p>
+    <!-- IMIĘ I NAZWISKO -->
+    <h1 class="hero-name">[Your Name]<br><em>Founder, Saloon.world</em></h1>
+    <p class="hero-title-line">Nine years in ultra-premium automotive · Mercedes-Benz & Maybach specialist</p>
+  </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="about-grid">
+
+  <!-- LEFT — BIO -->
+  <div class="bio-col">
+
+    <p class="section-eyebrow">The story</p>
+    <h2 class="section-headline">A career built on<br><em>knowing the difference</em></h2>
+
+    <!--
+      BIO TEXT
+      Wstaw tutaj swój tekst — 2–3 akapity.
+      Sugestia struktury:
+      1. Skąd pochodzi pasja / jak trafiłeś w branżę
+      2. 9 lat doświadczenia — co widziałeś, czego się nauczyłeś
+      3. Dlaczego Saloon.world — co Cię zmotywowało
+    -->
+    <div class="bio-text-placeholder">
+      <div class="bio-placeholder-label">Bio — paragraph 1</div>
+      <p style="width:100%"></p>
+      <p style="width:95%"></p>
+      <p style="width:88%"></p>
+      <p style="width:92%"></p>
+      <p style="width:70%"></p>
+    </div>
+    <div class="bio-text-placeholder">
+      <div class="bio-placeholder-label">Bio — paragraph 2</div>
+      <p style="width:100%"></p>
+      <p style="width:97%"></p>
+      <p style="width:83%"></p>
+      <p style="width:60%"></p>
+    </div>
+    <div class="bio-text-placeholder">
+      <div class="bio-placeholder-label">Bio — paragraph 3 (why Saloon.world)</div>
+      <p style="width:100%"></p>
+      <p style="width:90%"></p>
+      <p style="width:75%"></p>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- CURATOR'S NOTE — osobisty cytat -->
+    <div class="curator-block">
+      <div class="curator-label">In my own words</div>
+      <!--
+        Wstaw swój cytat — jeden, mocny.
+        Coś co brzmi jak Ty, nie jak marketing.
+      -->
+      <p class="curator-text-placeholder">
+        "Your personal quote here — something authentic about what drives you, what you look for in a car, or why curation matters in this segment."
+      </p>
+    </div>
+
+    <!-- STATS -->
+    <div class="stats-row">
+      <div class="stat">
+        <div class="stat-number">9<em>+</em></div>
+        <div class="stat-label">Years in ultra-premium automotive</div>
+      </div>
+      <div class="stat">
+        <div class="stat-number"><!--liczba aut--><em>—</em></div>
+        <div class="stat-label">Vehicles sold or advised on</div>
+      </div>
+      <div class="stat">
+        <div class="stat-number"><!--liczba marek / rynków--><em>—</em></div>
+        <div class="stat-label">Markets &amp; brands covered</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- RIGHT — PHOTO SIDEBAR -->
+  <div class="photo-col">
+
+    <!--
+      ZDJĘCIA BOCZNE (2–3 zdjęcia pionowe)
+      Mogą być: z pracy, przy autach, z archiwum, lifestyle.
+      Zastąp placeholder tagiem <img src="..." alt="...">
+    -->
+
+    <div class="photo-slot">
+      <div class="photo-slot-placeholder">
+        <div class="photo-slot-placeholder-icon">◻</div>
+        <div class="photo-slot-placeholder-text">Photo 1<br>portrait / at work</div>
+      </div>
+    </div>
+
+    <div class="photo-slot">
+      <div class="photo-slot-placeholder">
+        <div class="photo-slot-placeholder-icon">◻</div>
+        <div class="photo-slot-placeholder-text">Photo 2<br>with a vehicle</div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<!-- ARCHIVE SECTION -->
+<div class="archive-section">
+  <div class="archive-header">
+    <h2>From the <em>archive</em></h2>
+    <span class="archive-note">A selection of moments from nine years in the field</span>
+  </div>
+
+  <!--
+    ARCHIWUM ZDJĘĆ — siatka 4 kolumny
+    Wstaw tyle slotów ile masz zdjęć (min. 4, max. ~12).
+    Każdy slot: <div class="archive-slot"><img src="..." alt="..."></div>
+    Możesz miksować: auta, eventy, showroom, detale.
+  -->
+  <div class="archive-grid">
+    <!-- 8 placeholderów — zastąp zdjęciami -->
+    <div class="archive-slot"><div class="archive-slot-placeholder"><div class="archive-slot-placeholder-icon">◻</div><div class="archive-slot-n">01</div></div></div>
+    <div class="archive-slot"><div class="archive-slot-placeholder"><div class="archive-slot-placeholder-icon">◻</div><div class="archive-slot-n">02</div></div></div>
+    <div class="archive-slot"><div class="archive-slot-placeholder"><div class="archive-slot-placeholder-icon">◻</div><div class="archive-slot-n">03</div></div></div>
+    <div class="archive-slot"><div class="archive-slot-placeholder"><div class="archive-slot-placeholder-icon">◻</div><div class="archive-slot-n">04</div></div></div>
+    <div class="archive-slot"><div class="archive-slot-placeholder"><div class="archive-slot-placeholder-icon">◻</div><div class="archive-slot-n">05</div></div></div>
+    <div class="archive-slot"><div class="archive-slot-placeholder"><div class="archive-slot-placeholder-icon">◻</div><div class="archive-slot-n">06</div></div></div>
+    <div class="archive-slot"><div class="archive-slot-placeholder"><div class="archive-slot-placeholder-icon">◻</div><div class="archive-slot-n">07</div></div></div>
+    <div class="archive-slot"><div class="archive-slot-placeholder"><div class="archive-slot-placeholder-icon">◻</div><div class="archive-slot-n">08</div></div></div>
+  </div>
+</div>
+
+<!-- CTA STRIP -->
+<div class="cta-strip">
+  <div class="cta-left">
+    <h2>Have a vehicle<br>worth <em>presenting</em>?</h2>
+    <p>Every listing on Saloon.world passes through my hands personally. If you have a car that belongs here, let's talk.</p>
+  </div>
+  <div class="cta-right">
+    <a href="#" class="btn-primary">Submit a vehicle</a>
+    <a href="saloon_browse.html" class="btn-secondary">Browse the collection</a>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">SALOON<span>.</span>WORLD</div>
+  <div class="footer-note">© 2026 Saloon.world — A curated marketplace for exceptional automobiles</div>
+</footer>
+
+</body>
+</html>

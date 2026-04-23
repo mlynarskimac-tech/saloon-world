@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sell with Us — Saloon.world</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Instrument+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --cream:#F5F2EC;--ink:#1A1814;--ink-muted:#5C5850;
+  --gold:#B8A06A;--gold-light:#D4BC8A;
+  --border:rgba(26,24,20,0.12);--dark:#1A1814;
+}
+html{scroll-behavior:smooth}
+body{background:var(--cream);color:var(--ink);font-family:"Instrument Sans",sans-serif;font-weight:300}
+
+/* ─── NAV ─── */
+nav{
+  position:sticky;top:0;z-index:200;
+  background:rgba(245,242,236,0.96);backdrop-filter:blur(12px);
+  border-bottom:0.5px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 3rem;height:64px;
+}
+.nav-logo{font-family:"Cormorant Garamond",serif;font-size:1.05rem;font-weight:300;letter-spacing:0.22em;text-transform:uppercase;color:var(--ink);text-decoration:none}
+.nav-logo span{color:var(--gold)}
+.nav-links{display:flex;list-style:none}
+.nav-links a{display:block;padding:0 1.4rem;height:64px;line-height:64px;font-size:0.7rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--ink-muted);text-decoration:none;border-bottom:2px solid transparent;transition:all 0.2s}
+.nav-links a:hover,.nav-links a.active{color:var(--ink);border-bottom-color:var(--gold)}
+.nav-btn{background:var(--ink);color:var(--cream);border:none;padding:0.55rem 1.4rem;font-family:"Instrument Sans",sans-serif;font-size:0.68rem;letter-spacing:0.18em;text-transform:uppercase;cursor:pointer;transition:background 0.2s}
+.nav-btn:hover{background:#2D2A24}
+
+/* ─── HERO ─── */
+.hero{
+  background:var(--dark);
+  padding:7rem 3rem 5rem;
+  position:relative;overflow:hidden;
+}
+.hero::before{
+  content:"";position:absolute;inset:0;
+  background:radial-gradient(ellipse at 70% 50%,rgba(184,160,106,0.06) 0%,transparent 65%);
+}
+.hero-inner{max-width:760px;position:relative}
+.hero-eyebrow{
+  font-size:0.62rem;letter-spacing:0.32em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:1.5rem;
+  display:flex;align-items:center;gap:1rem;
+}
+.hero-eyebrow::after{content:"";flex:1;max-width:60px;height:0.5px;background:var(--gold);opacity:0.4}
+.hero-headline{
+  font-family:"Cormorant Garamond",serif;
+  font-size:clamp(2.8rem,5vw,5rem);
+  font-weight:300;color:var(--cream);line-height:1.05;
+  margin-bottom:1.5rem;
+}
+.hero-headline em{font-style:italic;color:var(--gold-light)}
+.hero-sub{
+  font-size:0.88rem;line-height:1.9;
+  color:rgba(245,242,236,0.5);
+  max-width:520px;margin-bottom:3rem;
+}
+.hero-cta{
+  display:inline-block;
+  background:var(--cream);color:var(--ink);
+  padding:1rem 2.5rem;
+  font-size:0.72rem;letter-spacing:0.2em;text-transform:uppercase;
+  text-decoration:none;cursor:pointer;border:none;
+  font-family:"Instrument Sans",sans-serif;
+  transition:background 0.2s;
+}
+.hero-cta:hover{background:var(--gold-light)}
+
+/* ─── WHO WE ACCEPT ─── */
+.accept-section{
+  display:grid;grid-template-columns:1fr 1fr;
+  border-top:0.5px solid var(--border);
+}
+.accept-left{
+  padding:5rem 4rem 5rem 3rem;
+  border-right:0.5px solid var(--border);
+}
+.accept-right{
+  padding:5rem 3rem 5rem 4rem;
+  background:#fff;
+}
+.section-eyebrow{
+  font-size:0.6rem;letter-spacing:0.3em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:1.2rem;
+}
+.section-headline{
+  font-family:"Cormorant Garamond",serif;
+  font-size:clamp(1.6rem,2.5vw,2.4rem);
+  font-weight:300;line-height:1.15;margin-bottom:1.5rem;
+}
+.section-headline em{font-style:italic}
+.section-body{
+  font-size:0.85rem;line-height:1.9;color:var(--ink-muted);
+  margin-bottom:2rem;
+}
+
+/* Brands list */
+.brands-list{display:flex;flex-direction:column;gap:0}
+.brand-item{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:1rem 0;border-bottom:0.5px solid var(--border);
+  font-size:0.82rem;
+}
+.brand-item:first-child{border-top:0.5px solid var(--border)}
+.brand-name{font-family:"Cormorant Garamond",serif;font-size:1.1rem;font-weight:300}
+.brand-models{font-size:0.72rem;color:var(--ink-muted);letter-spacing:0.04em}
+.brand-check{color:var(--gold);font-size:0.7rem}
+
+/* Criteria list */
+.criteria-list{display:flex;flex-direction:column;gap:1.2rem}
+.criteria-item{
+  display:flex;gap:1rem;align-items:flex-start;
+  padding-bottom:1.2rem;border-bottom:0.5px solid var(--border);
+}
+.criteria-item:last-child{border-bottom:none;padding-bottom:0}
+.criteria-num{
+  font-family:"Cormorant Garamond",serif;font-size:1.4rem;
+  color:var(--gold);font-weight:300;line-height:1;
+  flex-shrink:0;width:28px;
+}
+.criteria-text h4{
+  font-size:0.82rem;font-weight:400;margin-bottom:0.25rem;letter-spacing:0.04em;
+}
+.criteria-text p{font-size:0.78rem;color:var(--ink-muted);line-height:1.7}
+
+/* ─── VALUE PROPS ─── */
+.value-section{
+  background:var(--dark);
+  padding:6rem 3rem;
+}
+.value-inner{max-width:1200px;margin:0 auto}
+.value-header{margin-bottom:4rem}
+.value-header .section-eyebrow{color:var(--gold)}
+.value-header .section-headline{color:var(--cream)}
+.value-header .section-headline em{color:var(--gold-light)}
+.value-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:0;
+  border-top:0.5px solid rgba(245,242,236,0.08);
+  border-left:0.5px solid rgba(245,242,236,0.08);
+}
+.value-item{
+  padding:2.5rem 2rem;
+  border-right:0.5px solid rgba(245,242,236,0.08);
+  border-bottom:0.5px solid rgba(245,242,236,0.08);
+}
+.value-icon{
+  width:36px;height:36px;border:0.5px solid rgba(184,160,106,0.3);
+  display:flex;align-items:center;justify-content:center;
+  margin-bottom:1.5rem;
+  font-size:0.9rem;color:var(--gold);
+}
+.value-title{
+  font-family:"Cormorant Garamond",serif;font-size:1.2rem;
+  font-weight:300;color:var(--cream);margin-bottom:0.75rem;line-height:1.2;
+}
+.value-title em{font-style:italic}
+.value-body{font-size:0.78rem;color:rgba(245,242,236,0.45);line-height:1.8}
+
+/* ─── PROCESS ─── */
+.process-section{
+  padding:6rem 3rem;
+  max-width:1200px;margin:0 auto;
+}
+.process-header{margin-bottom:4rem}
+.process-steps{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  gap:0;
+  position:relative;
+}
+.process-steps::before{
+  content:"";
+  position:absolute;top:1.5rem;left:calc(12.5% + 1rem);right:calc(12.5% + 1rem);
+  height:0.5px;background:var(--border);
+}
+.process-step{padding:0 1.5rem;text-align:center}
+.step-num{
+  width:48px;height:48px;
+  border:0.5px solid var(--border);
+  display:flex;align-items:center;justify-content:center;
+  margin:0 auto 1.5rem;
+  font-family:"Cormorant Garamond",serif;font-size:1.1rem;
+  font-weight:300;background:var(--cream);
+  position:relative;z-index:1;
+  transition:border-color 0.2s,color 0.2s;
+}
+.process-step:hover .step-num{border-color:var(--gold);color:var(--gold)}
+.step-title{
+  font-size:0.78rem;font-weight:400;letter-spacing:0.06em;
+  margin-bottom:0.6rem;
+}
+.step-body{font-size:0.75rem;color:var(--ink-muted);line-height:1.75}
+
+/* ─── FORM SECTION ─── */
+.form-section{
+  display:grid;grid-template-columns:1fr 520px;
+  border-top:0.5px solid var(--border);
+}
+.form-left{
+  padding:5rem 4rem 5rem 3rem;
+  border-right:0.5px solid var(--border);
+}
+.form-left .section-headline{margin-bottom:1rem}
+.form-left .section-body{margin-bottom:0}
+
+.contact-detail{
+  margin-top:3rem;
+  padding-top:2rem;border-top:0.5px solid var(--border);
+}
+.contact-detail-label{
+  font-size:0.6rem;letter-spacing:0.25em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:0.5rem;
+}
+.contact-detail-value{
+  font-family:"Cormorant Garamond",serif;font-size:1.1rem;font-weight:300;
+}
+
+.form-right{
+  padding:5rem 3rem 5rem 4rem;
+  background:#fff;
+}
+
+/* Form styles */
+.form-group{margin-bottom:1.5rem}
+.form-label{
+  display:block;font-size:0.62rem;letter-spacing:0.22em;text-transform:uppercase;
+  color:var(--ink-muted);margin-bottom:0.5rem;
+}
+.form-input,.form-select,.form-textarea{
+  width:100%;background:transparent;border:none;
+  border-bottom:0.5px solid var(--border);
+  padding:0.6rem 0;font-family:"Instrument Sans",sans-serif;
+  font-size:0.85rem;font-weight:300;color:var(--ink);
+  outline:none;transition:border-color 0.2s;
+  appearance:none;
+}
+.form-input:focus,.form-select:focus,.form-textarea:focus{border-bottom-color:var(--gold)}
+.form-textarea{resize:none;height:90px;line-height:1.6}
+.form-select{cursor:pointer;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%235C5850'/%3E%3C/svg%3E") no-repeat right center}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+
+.form-submit{
+  width:100%;background:var(--ink);color:var(--cream);border:none;
+  padding:1rem;font-family:"Instrument Sans",sans-serif;
+  font-size:0.72rem;letter-spacing:0.2em;text-transform:uppercase;
+  cursor:pointer;margin-top:0.5rem;transition:background 0.2s;
+}
+.form-submit:hover{background:#2D2A24}
+.form-note{
+  font-size:0.68rem;color:var(--ink-muted);text-align:center;
+  margin-top:1rem;line-height:1.6;
+}
+
+/* Success state */
+.form-success{
+  display:none;text-align:center;padding:3rem 1rem;
+}
+.form-success.visible{display:block}
+.form-success-icon{font-size:2rem;color:var(--gold);margin-bottom:1rem}
+.form-success h3{
+  font-family:"Cormorant Garamond",serif;font-size:1.6rem;font-weight:300;margin-bottom:0.5rem;
+}
+.form-success p{font-size:0.82rem;color:var(--ink-muted);line-height:1.7}
+
+/* ─── FOOTER ─── */
+footer{
+  background:var(--dark);padding:3rem;
+  display:flex;align-items:center;justify-content:space-between;
+  border-top:0.5px solid rgba(245,242,236,0.08);
+}
+.footer-logo{font-family:"Cormorant Garamond",serif;font-size:0.9rem;font-weight:300;letter-spacing:0.25em;text-transform:uppercase;color:var(--cream)}
+.footer-logo span{color:var(--gold)}
+.footer-note{font-size:0.68rem;color:rgba(245,242,236,0.3);letter-spacing:0.06em}
+
+/* ─── RESPONSIVE ─── */
+@media(max-width:960px){
+  nav{padding:0 1.5rem}
+  .nav-links{display:none}
+  .hero{padding:5rem 1.5rem 3rem}
+  .accept-section{grid-template-columns:1fr}
+  .accept-left{padding:3rem 1.5rem;border-right:none;border-bottom:0.5px solid var(--border)}
+  .accept-right{padding:3rem 1.5rem}
+  .value-grid{grid-template-columns:1fr}
+  .process-section{padding:4rem 1.5rem}
+  .process-steps{grid-template-columns:1fr 1fr;row-gap:3rem}
+  .process-steps::before{display:none}
+  .form-section{grid-template-columns:1fr}
+  .form-left{padding:3rem 1.5rem;border-right:none;border-bottom:0.5px solid var(--border)}
+  .form-right{padding:3rem 1.5rem}
+  .form-row{grid-template-columns:1fr}
+  footer{flex-direction:column;gap:1rem;text-align:center;padding:2rem 1.5rem}
+  .value-section{padding:4rem 1.5rem}
+}
+</style>
+</head>
+<body data-page="sell">
+
+
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <p class="hero-eyebrow">Sell with Saloon.world</p>
+    <h1 class="hero-headline">Your car deserves<br>a <em>proper introduction</em></h1>
+    <p class="hero-sub">We don't post listings — we present automobiles. Every vehicle on Saloon.world is curated, photographed, and introduced to a global audience of qualified buyers.</p>
+    <a href="#inquiry" class="hero-cta" onclick="document.getElementById('inquiry').scrollIntoView({behavior:'smooth'});return false">Submit your vehicle</a>
+  </div>
+</section>
+
+<!-- WHO WE ACCEPT -->
+<section class="accept-section">
+  <div class="accept-left">
+    <p class="section-eyebrow">What we list</p>
+    <h2 class="section-headline">Not every car<br>makes the <em>cut</em></h2>
+    <p class="section-body">Saloon.world is a curated platform. We work exclusively with ultra-premium saloons from the world's finest manufacturers. If your car belongs in this company, we want to hear from you.</p>
+
+    <div class="brands-list">
+      <div class="brand-item">
+        <div>
+          <div class="brand-name">Mercedes-Benz</div>
+          <div class="brand-models">S-Class · S 450 · S 500 · S 580 · AMG S 63 · AMG S 65</div>
+        </div>
+        <span class="brand-check">✦</span>
+      </div>
+      <div class="brand-item">
+        <div>
+          <div class="brand-name">Mercedes-Maybach</div>
+          <div class="brand-models">S 580 · S 650 · S 680 · Haute Voiture editions</div>
+        </div>
+        <span class="brand-check">✦</span>
+      </div>
+      <div class="brand-item">
+        <div>
+          <div class="brand-name">Bentley</div>
+          <div class="brand-models">Flying Spur · Mulsanne · Continental GT</div>
+        </div>
+        <span class="brand-check">✦</span>
+      </div>
+      <div class="brand-item">
+        <div>
+          <div class="brand-name">Rolls-Royce</div>
+          <div class="brand-models">Phantom · Ghost · Spectre · Bespoke editions</div>
+        </div>
+        <span class="brand-check">✦</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="accept-right">
+    <p class="section-eyebrow">Our criteria</p>
+    <h2 class="section-headline">What we look<br>for in a <em>vehicle</em></h2>
+
+    <div class="criteria-list">
+      <div class="criteria-item">
+        <div class="criteria-num">01</div>
+        <div class="criteria-text">
+          <h4>Exceptional specification</h4>
+          <p>Factory options, Manufaktur finishes, bespoke interiors. The more considered the build, the better the story we can tell.</p>
+        </div>
+      </div>
+      <div class="criteria-item">
+        <div class="criteria-num">02</div>
+        <div class="criteria-text">
+          <h4>Verifiable history</h4>
+          <p>Full service records, single ownership or well-documented provenance. Transparency is non-negotiable for buyers in this segment.</p>
+        </div>
+      </div>
+      <div class="criteria-item">
+        <div class="criteria-num">03</div>
+        <div class="criteria-text">
+          <h4>Condition befitting the price</h4>
+          <p>We present cars honestly. The condition must match the asking price — and ideally, exceed expectations.</p>
+        </div>
+      </div>
+      <div class="criteria-item">
+        <div class="criteria-num">04</div>
+        <div class="criteria-text">
+          <h4>2020 model year or newer</h4>
+          <p>We focus on the current generation of ultra-premium saloons. Exceptions made for truly exceptional earlier cars.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VALUE PROPS -->
+<section class="value-section">
+  <div class="value-inner">
+    <div class="value-header">
+      <p class="section-eyebrow">Why Saloon.world</p>
+      <h2 class="section-headline" style="color:var(--cream)">What you get when you<br><em>list with us</em></h2>
+    </div>
+    <div class="value-grid">
+      <div class="value-item">
+        <div class="value-icon">◎</div>
+        <div class="value-title"><em>Global</em> reach</div>
+        <p class="value-body">Your car is presented to qualified buyers across Europe, the Middle East, and Asia. Not a local listing — a global introduction.</p>
+      </div>
+      <div class="value-item">
+        <div class="value-icon">✦</div>
+        <div class="value-title">Curator's <em>presentation</em></div>
+        <p class="value-body">Every listing includes a personal Curator's note written by a 9-year Mercedes-Benz and Maybach specialist. Context that classifieds simply can't offer.</p>
+      </div>
+      <div class="value-item">
+        <div class="value-icon">◻</div>
+        <div class="value-title"><em>Editorial</em> photography</div>
+        <p class="value-body">Where possible, we assist with or arrange photography that does the car justice. First impression matters — especially at this price point.</p>
+      </div>
+      <div class="value-item">
+        <div class="value-icon">→</div>
+        <div class="value-title">Qualified <em>buyers only</em></div>
+        <p class="value-body">No tyre-kickers. Our audience is self-selected: people who understand what they're looking at and are ready to act.</p>
+      </div>
+      <div class="value-item">
+        <div class="value-icon">◈</div>
+        <div class="value-title"><em>Discreet</em> by default</div>
+        <p class="value-body">Private listings available. Your car can be presented without price on request, or without identifying details until a buyer is qualified.</p>
+      </div>
+      <div class="value-item">
+        <div class="value-icon">◇</div>
+        <div class="value-title">Currently <em>free</em> to list</div>
+        <p class="value-body">We are in launch phase. Listing your vehicle now is free. We earn when you sell — future commission structure will be communicated in advance.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="process-section">
+  <div class="process-header">
+    <p class="section-eyebrow">How it works</p>
+    <h2 class="section-headline">From submission<br>to <em>sold</em></h2>
+  </div>
+  <div class="process-steps">
+    <div class="process-step">
+      <div class="step-num">01</div>
+      <div class="step-title">Submit your vehicle</div>
+      <p class="step-body">Fill in the form below. Basic details, photos if you have them, your asking price. Takes five minutes.</p>
+    </div>
+    <div class="process-step">
+      <div class="step-num">02</div>
+      <div class="step-title">Curator review</div>
+      <p class="step-body">I personally review every submission within 48 hours. If the car fits, we move forward. If not, I'll tell you why.</p>
+    </div>
+    <div class="process-step">
+      <div class="step-num">03</div>
+      <div class="step-title">Listing creation</div>
+      <p class="step-body">We build the listing together — specification, photography guidance, Curator's note. You approve before it goes live.</p>
+    </div>
+    <div class="process-step">
+      <div class="step-num">04</div>
+      <div class="step-title">Published & promoted</div>
+      <p class="step-body">Your car goes live on Saloon.world and is shared with our buyer network across Europe, the Middle East, and Asia.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FORM -->
+<section class="form-section" id="inquiry">
+  <div class="form-left">
+    <p class="section-eyebrow">Submit a vehicle</p>
+    <h2 class="section-headline">Tell us about<br>your <em>car</em></h2>
+    <p class="section-body">Use the form to submit your vehicle for consideration. I review every submission personally and respond within 48 hours.</p>
+    <p class="section-body" style="margin-top:1rem">For dealers with multiple vehicles, reach out directly — we can discuss a broader partnership.</p>
+
+    <div class="contact-detail">
+      <div class="contact-detail-label">Direct contact</div>
+      <div class="contact-detail-value">hello@saloon.world</div>
+    </div>
+    <div class="contact-detail">
+      <div class="contact-detail-label">Response time</div>
+      <div class="contact-detail-value">Within 48 hours</div>
+    </div>
+    <div class="contact-detail">
+      <div class="contact-detail-label">Languages</div>
+      <div class="contact-detail-value">English · Deutsch · Polski</div>
+    </div>
+  </div>
+
+  <div class="form-right">
+    <div id="formWrap">
+      <!-- Formularz — podepnij Formspark: action="https://formspree.io/f/YOUR_ID" lub Formspark -->
+      <form id="sellForm" onsubmit="handleSubmit(event)">
+        <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">First name</label>
+            <input class="form-input" type="text" placeholder="John" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Last name</label>
+            <input class="form-input" type="text" placeholder="Smith" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Email</label>
+          <input class="form-input" type="email" placeholder="john@example.com" required>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Phone (optional)</label>
+          <input class="form-input" type="tel" placeholder="+49 ...">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">I am a</label>
+          <select class="form-select" required>
+            <option value="" disabled selected>Select one</option>
+            <option>Private seller</option>
+            <option>Dealer</option>
+            <option>Fleet / leasing company</option>
+            <option>Other</option>
+          </select>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Make</label>
+            <select class="form-select" required>
+              <option value="" disabled selected>Select make</option>
+              <option>Mercedes-Benz</option>
+              <option>Mercedes-Maybach</option>
+              <option>Bentley</option>
+              <option>Rolls-Royce</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Model</label>
+            <input class="form-input" type="text" placeholder="S 580 Lang" required>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Year</label>
+            <input class="form-input" type="text" placeholder="2025">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Mileage (km)</label>
+            <input class="form-input" type="text" placeholder="12 000">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Asking price (EUR)</label>
+          <input class="form-input" type="text" placeholder="€ 150,000">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Notable specification / options</label>
+          <textarea class="form-textarea" placeholder="AMG Line, Executive Rear, Burmester, colour, interior..."></textarea>
+        </div>
+
+        <button type="submit" class="form-submit">Submit for review</button>
+        <p class="form-note">Your details are used solely to evaluate your submission and respond to your inquiry.</p>
+      </form>
+    </div>
+
+    <div class="form-success" id="formSuccess">
+      <div class="form-success-icon">✦</div>
+      <h3>Submission received</h3>
+      <p>Thank you. I'll review your vehicle and be in touch within 48 hours.<br>If your car is a good fit, we'll take it from there.</p>
+    </div>
+  </div>
+</section>
+
+
+
+<script>
+async function handleSubmit(e) {
+  e.preventDefault();
+  const btn = e.target.querySelector('.form-submit');
+  btn.textContent = 'Sending...';
+  btn.disabled = true;
+  try {
+    const res = await fetch('https://submit-form.com/1KZeDBZ1e', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify(Object.fromEntries(new FormData(e.target)))
+    });
+    if (res.ok) {
+      document.getElementById('formWrap').style.display = 'none';
+      document.getElementById('formSuccess').classList.add('visible');
+      window.scrollTo({top: document.getElementById('inquiry').offsetTop, behavior:'smooth'});
+    } else {
+      btn.textContent = 'Something went wrong — try again';
+      btn.disabled = false;
+    }
+  } catch(err) {
+    btn.textContent = 'Something went wrong — try again';
+    btn.disabled = false;
+  }
+}
+</script>
+<script src="saloon_nav.js"></script>
+</body>
+</html>
