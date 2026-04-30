@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SALOON.WORLD — Request Received</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Playfair+Display:wght@300;400&family=Instrument+Sans:wght@300;400&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body {
+  width: 100%; height: 100%;
+  background: #080705;
+  color: #f5f0e8;
+  overflow: hidden;
+}
+
+/* Background texture */
+.bg {
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 100%, rgba(201,169,110,0.06) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 40% at 80% 20%, rgba(201,169,110,0.04) 0%, transparent 60%);
+}
+
+/* Top bar */
+.top-bar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 10;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 28px 80px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 0.3em;
+  color: #c9a96e;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+/* Main content */
+.content {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 0 80px;
+  max-width: 800px;
+}
+
+.eyebrow {
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 10px;
+  letter-spacing: 0.35em;
+  color: #c9a96e;
+  text-transform: uppercase;
+  margin-bottom: 28px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.eyebrow::before {
+  content: '';
+  width: 40px;
+  height: 1px;
+  background: #c9a96e;
+  flex-shrink: 0;
+}
+
+h1 {
+  font-family: 'Playfair Display', serif;
+  font-weight: 400;
+  font-size: clamp(32px, 4vw, 64px);
+  color: #f5f0e8;
+  line-height: 1.1;
+  margin-bottom: 24px;
+}
+
+.price-line {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: clamp(18px, 2vw, 32px);
+  color: #c9a96e;
+  border-left: 2px solid #c9a96e;
+  padding-left: 16px;
+  margin-bottom: 40px;
+  line-height: 1.4;
+}
+
+.desc {
+  font-family: 'Instrument Sans', sans-serif;
+  font-weight: 300;
+  font-size: 14px;
+  line-height: 1.9;
+  color: rgba(245,240,232,0.45);
+  max-width: 480px;
+  margin-bottom: 48px;
+}
+
+.divider {
+  width: 100%;
+  max-width: 480px;
+  height: 1px;
+  background: rgba(255,255,255,0.1);
+  margin-bottom: 32px;
+}
+
+.back-link {
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  color: rgba(255,255,255,0.25);
+  text-transform: uppercase;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  padding-bottom: 2px;
+  transition: color 0.2s, border-color 0.2s;
+}
+.back-link:hover {
+  color: #c9a96e;
+  border-color: #c9a96e;
+}
+
+/* Scroll indicator */
+#scroll-indicator {
+  position: fixed;
+  bottom: 48px;
+  right: 48px;
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+#scroll-indicator span {
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 9px;
+  letter-spacing: 0.35em;
+  color: rgba(245,240,232,0.2);
+  text-transform: uppercase;
+  writing-mode: vertical-rl;
+}
+#scroll-indicator .scroll-line {
+  width: 1px;
+  height: 40px;
+  background: linear-gradient(to bottom, rgba(245,240,232,0.2), transparent);
+}
+
+/* Fade in animation */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.eyebrow { animation: fadeUp 0.8s ease both; animation-delay: 0.2s; opacity: 0; }
+h1       { animation: fadeUp 0.8s ease both; animation-delay: 0.4s; opacity: 0; }
+.price-line { animation: fadeUp 0.8s ease both; animation-delay: 0.6s; opacity: 0; }
+.desc    { animation: fadeUp 0.8s ease both; animation-delay: 0.8s; opacity: 0; }
+.divider { animation: fadeUp 0.8s ease both; animation-delay: 0.9s; opacity: 0; }
+.back-link { animation: fadeUp 0.8s ease both; animation-delay: 1s; opacity: 0; }
+</style>
+</head>
+<body>
+
+<div class="bg"></div>
+
+<div class="top-bar">
+  <a href="Saloon World.html" class="logo">Saloon.world</a>
+</div>
+
+<div class="content">
+  <div class="eyebrow">Request Received</div>
+  <h1>You're on the list.</h1>
+  <div class="price-line">
+    We'll reach out before anyone else.<br>
+    End of May 2026.
+  </div>
+  <p class="desc">
+    Your place has been reserved. Saloon.world is a private marketplace — 
+    built for those who know what they're looking for. 
+    We'll be in touch with early access details shortly.
+  </p>
+  <div class="divider"></div>
+  <a href="Saloon World.html" class="back-link">← Return to Saloon.world</a>
+</div>
+
+<div id="scroll-indicator">
+  <span>Saloon</span>
+  <div class="scroll-line"></div>
+</div>
+
+</body>
+</html>
