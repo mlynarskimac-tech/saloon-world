@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SALOON.WORLD</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Instrument+Sans:wght@300;400&family=Playfair+Display:wght@300;400&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: auto; }
+body { background: #060606; color: #f5f0e8; overflow-x: hidden; }
+
+/* ─── SCROLL VIDEO SECTION ─── */
+#scroll-hero {
+  position: relative;
+  height: 300vh;
+}
+#scroll-sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  background: #000;
+}
+#scroll-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  filter: brightness(0.85);
+}
+/* Vignette */
+#scroll-sticky::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.55) 100%),
+    linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 40%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ─── SIDE BAR ─── */
+.side-bar {
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 3px;
+  background: linear-gradient(to bottom, transparent, #c9a96e 30%, #c9a96e 70%, transparent);
+  z-index: 3;
+}
+
+#scroll-indicator {
+  position: absolute;
+  bottom: 48px;
+  right: 48px;
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+#scroll-indicator span {
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 9px;
+  letter-spacing: 0.35em;
+  color: rgba(245,240,232,0.3);
+  text-transform: uppercase;
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+}
+#scroll-indicator .scroll-line {
+  width: 1px;
+  height: 40px;
+  background: linear-gradient(to bottom, rgba(245,240,232,0.3), transparent);
+}
+
+.stage-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 4px;
+}
+.stage-form-toggle {
+  display: flex;
+  gap: 0;
+  border: 1px solid rgba(201,169,110,0.3);
+  width: fit-content;
+}
+.form-toggle {
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: rgba(245,240,232,0.4);
+  background: transparent;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.form-toggle.active {
+  background: rgba(201,169,110,0.15);
+  color: #c9a96e;
+}
+.form-toggle:hover:not(.active) {
+  color: rgba(245,240,232,0.7);
+}
+.stage-form-row {
+  display: flex;
+  gap: 0;
+}
+.stage-input {
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 13px;
+  color: #f5f0e8;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-right: none;
+  padding: 12px 20px;
+  width: 280px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.stage-input::placeholder { color: rgba(245,240,232,0.3); }
+.stage-input:focus { border-color: rgba(201,169,110,0.5); }
+.stage-submit {
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #0a0906;
+  background: #c9a96e;
+  border: none;
+  padding: 12px 24px;
+  cursor: pointer;
+  transition: background 0.2s;
+  white-space: nowrap;
+}
+.stage-submit:hover { background: #d4b87a; }
+.stage-select {
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 13px;
+  color: rgba(245,240,232,0.6);
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.15);
+  padding: 12px 32px 12px 16px;
+  outline: none;
+  cursor: pointer;
+  transition: border-color 0.2s;
+  -webkit-appearance: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' fill='none'%3E%3Cpath d='M1 1l4 4 4-4' stroke='rgba(245,240,232,0.3)' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-color: rgba(255,255,255,0.05);
+}
+.stage-select option { background: #0a0906; color: #f5f0e8; }
+.stage-select:focus { border-color: rgba(201,169,110,0.5); }
+.form-fields-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+.form-fields-row .stage-input { flex: 1; border-right: 1px solid rgba(255,255,255,0.15); }
+.form-fields-row .stage-select { width: 160px; }
+.form-fields-dynamic {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 0;
+}
+.form-fields-dynamic .stage-input,
+.form-fields-dynamic .stage-select { flex: 1; }
+.form-microcopy {
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  color: rgba(245,240,232,0.25);
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+/* ─── TOP BAR ─── */
+.top-bar {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  z-index: 4;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 80px;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+@media (max-width: 768px) {
+  .top-bar { padding: 20px 24px; }
+  .stage-text { padding: 32px 24px 32px 24px; bottom: 10%; }
+  .stage-headline { font-size: clamp(16px, 5vw, 26px); margin-bottom: 16px; }
+  .stage-price { font-size: clamp(16px, 5vw, 26px); padding-left: 12px; margin-bottom: 14px; }
+  .stage-eyebrow { font-size: 9px; letter-spacing: 0.2em; margin-bottom: 12px; }
+  .stage-desc { font-size: 13px !important; }
+  .stage-form-toggle { flex-wrap: wrap; }
+  .form-fields-row { flex-direction: column; gap: 6px; }
+  .form-fields-row .stage-input,
+  .form-fields-row .stage-select { width: 100%; flex: none; }
+  .form-fields-dynamic { flex-direction: column; gap: 6px; }
+  .form-fields-dynamic .stage-input,
+  .form-fields-dynamic .stage-select { width: 100%; }
+  .stage-input { width: 100%; border-right: 1px solid rgba(255,255,255,0.15); }
+  .stage-form-row { flex-direction: column; gap: 6px; }
+  .stage-submit { width: 100%; padding: 14px; }
+  .stage-counter { right: 12px; }
+  #scroll-indicator { right: 16px; bottom: 32px; }
+  .stage-form-toggle .form-toggle { padding: 8px 14px; font-size: 10px; }
+}
+.top-bar .tl {
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  color: rgba(255,255,255,0.25);
+  text-transform: uppercase;
+}
+.top-bar { justify-content: center; }
+.top-bar .tl.logo-tl {
+  color: #c9a96e;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 15px;
+  letter-spacing: 0.45em;
+  font-weight: 300;
+}
+@media (max-width: 600px) {
+  .top-bar .tl:not(.logo-tl) { display: none; }
+  .stage-headline { font-size: clamp(15px, 4.5vw, 22px); word-break: break-word; overflow-wrap: break-word; }
+  .stage-price { font-size: clamp(15px, 4.5vw, 22px); }
+}
+
+/* ─── SCROLL PROGRESS BAR ─── */
+#progress-bar {
+  position: absolute;
+  bottom: 0; left: 0;
+  height: 2px;
+  width: 0%;
+  background: linear-gradient(to right, transparent, #c9a96e);
+  z-index: 5;
+  transition: width 0.1s linear;
+}
+
+/* ─── TEXT STAGES ─── */
+.stage-text {
+  position: absolute;
+  bottom: 20%; left: 0; right: 0;
+  z-index: 3;
+  padding: 60px 80px 48px 80px;
+  background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.5) 60%, transparent 100%);
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+  pointer-events: none;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  hyphens: auto;
+}
+@media (max-width: 768px) {
+  .stage-text { padding: 40px 24px 36px 24px; }
+}
+.stage-text.active {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.stage-eyebrow {
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 10px;
+  letter-spacing: 0.35em;
+  color: #c9a96e;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.stage-eyebrow::before {
+  content: '';
+  width: 40px;
+  height: 1px;
+  background: #c9a96e;
+  flex-shrink: 0;
+}
+.stage-headline {
+  font-family: 'Playfair Display', serif;
+  font-weight: 400;
+  font-size: clamp(20px, 2vw, 36px);
+  color: #f5f0e8;
+  line-height: 1.1;
+  word-break: keep-all;
+  overflow-wrap: normal;
+  letter-spacing: -0.01em;
+  margin-bottom: 32px;
+  text-shadow: 0 2px 40px rgba(0,0,0,0.9);
+}
+.stage-headline em {
+  font-style: italic;
+  display: block;
+  color: rgba(245,240,232,0.55);
+}
+.stage-price {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(24px, 2.5vw, 44px);
+  color: #c9a96e;
+  margin-bottom: 24px;
+  letter-spacing: 0.08em;
+  text-shadow: 0 2px 40px rgba(0,0,0,0.9);
+  border-left: 2px solid #c9a96e;
+  padding-left: 16px;
+}
+.stage-bottom {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  border-top: 1px solid rgba(255,255,255,0.12);
+  padding-top: 24px;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+.stage-desc {
+  font-family: 'Instrument Sans', sans-serif;
+  font-weight: 300;
+  font-size: 12px;
+  line-height: 1.8;
+  color: rgba(245,240,232,0.4);
+  max-width: 380px;
+}
+.stage-cta {
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  color: rgba(255,255,255,0.3);
+  text-transform: uppercase;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(255,255,255,0.15);
+  padding-bottom: 2px;
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s;
+  background: none;
+  border-left: none;
+  border-right: none;
+  border-top: none;
+  white-space: nowrap;
+}
+.stage-cta:hover { color: #c9a96e; border-bottom-color: #c9a96e; }
+
+/* Stage 3 — CTA button */
+.stage-cta-primary {
+  border: 1px solid rgba(201,169,110,0.5);
+  color: #c9a96e;
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  padding: 14px 36px;
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.stage-cta-primary:hover { background: rgba(201,169,110,0.1); border-color: #c9a96e; }
+
+/* ─── WATERMARK COVER ─── */
+#wm-cover {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 40vw;
+  height: 25vh;
+  min-width: 350px;
+  min-height: 120px;
+  background: linear-gradient(to top left, rgba(0,0,0,0.98) 35%, rgba(0,0,0,0.6) 55%, transparent 75%);
+  z-index: 6;
+  pointer-events: none;
+}
+
+/* ─── SCROLL INDICATOR ─── */
+.scroll-indicator {
+  position: absolute;
+  bottom: 36px;
+  right: 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  z-index: 4;
+  opacity: 0.4;
+}
+.scroll-indicator span {
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 9px;
+  letter-spacing: 0.25em;
+  color: #fff;
+  text-transform: uppercase;
+  writing-mode: vertical-rl;
+}
+.scroll-indicator .line {
+  width: 1px;
+  height: 40px;
+  background: linear-gradient(to bottom, #c9a96e, transparent);
+  animation: scrollPulse 2s infinite;
+}
+@keyframes scrollPulse {
+  0%,100% { opacity: 0.4; transform: scaleY(1); transform-origin: top; }
+  50% { opacity: 1; transform: scaleY(0.6); transform-origin: top; }
+}
+
+/* ─── STAGE COUNTER ─── */
+.stage-counter {
+  position: absolute;
+  top: 50%;
+  right: 80px;
+  transform: translateY(-50%);
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+@media (max-width: 768px) { .stage-counter { right: 20px; } }
+.stage-dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: rgba(201,169,110,0.3);
+  transition: all 0.4s ease;
+}
+.stage-dot.active {
+  background: #c9a96e;
+  transform: scale(1.5);
+}
+
+/* ═══════════════════════════════════════════
+   EXISTING CONCEPTS SECTION (preserved below)
+   ═══════════════════════════════════════════ */
+.concept-nav {
+  position: sticky;
+  top: 0;
+  z-index: 9999;
+  background: #0a0a0a;
+  border-bottom: 1px solid #222;
+  padding: 12px 24px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.concept-nav span {
+  color: #555;
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-right: 12px;
+}
+.nav-btn {
+  background: transparent;
+  border: 1px solid #333;
+  color: #888;
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 6px 16px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.nav-btn:hover { border-color: #666; color: #ccc; }
+.nav-btn.active { border-color: #c9a96e; color: #c9a96e; }
+
+.concept { display: none; width: 100vw; height: 100vh; overflow: hidden; }
+.concept.active { display: block; }
+
+/* ─── CONCEPT 1 ─── */
+#c1 { position: relative; background: #000; }
+#c1 .bg {
+  position: absolute; inset: 0;
+  background-size: cover; background-position: center 40%;
+  filter: brightness(0.55);
+}
+#c1 .vignette {
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at center, transparent 30%, rgba(0,0,0,0.7) 100%);
+}
+#c1 .content {
+  position: relative; z-index: 2;
+  height: 100vh;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  text-align: center; gap: 24px;
+}
+#c1 .logo { font-family: 'Cormorant Garamond', serif; font-weight: 300; font-size: clamp(14px,2vw,20px); letter-spacing: 0.5em; color: #c9a96e; text-transform: uppercase; }
+#c1 .divider { width: 1px; height: 60px; background: linear-gradient(to bottom, transparent, #c9a96e, transparent); margin: 0 auto; }
+#c1 .headline { font-family: 'Cormorant Garamond', serif; font-weight: 300; font-size: clamp(36px,6vw,80px); color: #f5f0e8; line-height: 1.1; letter-spacing: 0.02em; }
+#c1 .headline em { font-style: italic; color: #c9a96e; }
+#c1 .sub { font-family: 'Instrument Sans', sans-serif; font-weight: 300; font-size: 13px; letter-spacing: 0.25em; color: rgba(245,240,232,0.5); text-transform: uppercase; }
+#c1 .cta { margin-top: 16px; border: 1px solid rgba(201,169,110,0.5); color: #c9a96e; font-family: 'Instrument Sans', sans-serif; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; padding: 14px 36px; background: transparent; cursor: pointer; transition: all 0.3s; }
+#c1 .cta:hover { background: rgba(201,169,110,0.1); border-color: #c9a96e; }
+#c1 .scroll-hint { position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 8px; z-index: 2; animation: bounce 2s infinite; }
+#c1 .scroll-hint span { font-family: 'Instrument Sans', sans-serif; font-size: 10px; letter-spacing: 0.2em; color: rgba(255,255,255,0.3); text-transform: uppercase; }
+#c1 .scroll-hint svg { opacity: 0.3; }
+@keyframes bounce { 0%,100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(6px); } }
+
+/* ─── CONCEPT 2 ─── */
+#c2 { background: #0d0d0d; }
+#c2 .inner { display: grid; grid-template-columns: 1fr 1fr; height: 100vh; }
+#c2 .left { background-size: cover; background-position: center 40%; position: relative; overflow: hidden; }
+#c2 .left::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to right, transparent 60%, #0d0d0d 100%); }
+#c2 .right { display: flex; flex-direction: column; justify-content: center; padding: 60px 70px; position: relative; }
+#c2 .right::before { content: ''; position: absolute; left: 0; top: 20%; bottom: 20%; width: 1px; background: linear-gradient(to bottom, transparent, #c9a96e 30%, #c9a96e 70%, transparent); }
+#c2 .eyebrow { font-family: 'Instrument Sans', sans-serif; font-size: 10px; letter-spacing: 0.35em; color: #c9a96e; text-transform: uppercase; margin-bottom: 32px; }
+#c2 .headline { font-family: 'Cormorant Garamond', serif; font-weight: 300; font-size: clamp(30px,3.5vw,52px); color: #f5f0e8; line-height: 1.15; margin-bottom: 24px; }
+#c2 .headline em { font-style: italic; color: #c9a96e; }
+#c2 .body-text { font-family: 'Instrument Sans', sans-serif; font-weight: 300; font-size: 13px; line-height: 1.8; color: rgba(245,240,232,0.45); margin-bottom: 48px; max-width: 320px; }
+#c2 .form-row { display: flex; gap: 0; }
+#c2 input { background: transparent; border: 1px solid #333; border-right: none; color: #f5f0e8; font-family: 'Instrument Sans', sans-serif; font-size: 12px; letter-spacing: 0.05em; padding: 14px 20px; width: 240px; outline: none; }
+#c2 input::placeholder { color: #444; }
+#c2 input:focus { border-color: #555; }
+#c2 .submit { background: #c9a96e; border: none; color: #0d0d0d; font-family: 'Instrument Sans', sans-serif; font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; padding: 14px 24px; cursor: pointer; transition: background 0.2s; white-space: nowrap; }
+#c2 .submit:hover { background: #d4b97e; }
+#c2 .logo-mark { position: absolute; top: 40px; right: 70px; font-family: 'Cormorant Garamond', serif; font-weight: 300; font-size: 13px; letter-spacing: 0.4em; color: rgba(201,169,110,0.6); text-transform: uppercase; }
+#c2 .tagline-small { margin-top: 32px; font-family: 'Instrument Sans', sans-serif; font-size: 10px; letter-spacing: 0.2em; color: #333; text-transform: uppercase; }
+
+/* ─── CONCEPT 3 ─── */
+#c3 { position: relative; background: #060606; overflow: hidden; }
+#c3 .bg { position: absolute; inset: 0; background-size: cover; background-position: center 30%; filter: brightness(1.0) saturate(1.0); }
+#c3 .gradient-overlay { position: absolute; inset: 0; background: none; }
+#c3 .side-bar { position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: linear-gradient(to bottom, transparent, #c9a96e 30%, #c9a96e 70%, transparent); }
+#c3 .content { position: relative; z-index: 2; height: 100vh; display: flex; flex-direction: column; justify-content: flex-end; }
+#c3 .text-panel { background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.6) 60%, transparent 100%); padding: 60px 80px 48px 80px; width: 100%; }
+#c3 .issue-label { font-family: 'Instrument Sans', sans-serif; font-size: 10px; letter-spacing: 0.35em; color: #c9a96e; text-transform: uppercase; margin-bottom: 20px; display: flex; align-items: center; gap: 16px; }
+#c3 .issue-label::before { content: ''; width: 40px; height: 1px; background: #c9a96e; }
+#c3 .headline { font-family: 'Cormorant Garamond', serif; font-weight: 300; font-size: clamp(42px,7vw,96px); color: #f5f0e8; line-height: 0.95; letter-spacing: -0.01em; margin-bottom: 32px; text-shadow: 0 2px 30px rgba(0,0,0,0.8), 0 0 80px rgba(0,0,0,0.6); }
+#c3 .headline em { font-style: italic; display: block; color: rgba(245,240,232,0.6); }
+#c3 .bottom-row { display: flex; align-items: flex-end; justify-content: space-between; border-top: 1px solid rgba(255,255,255,0.15); padding-top: 28px; margin-top: 8px; }
+#c3 .descriptor { font-family: 'Instrument Sans', sans-serif; font-weight: 300; font-size: 12px; line-height: 1.7; color: rgba(245,240,232,0.4); max-width: 380px; }
+#c3 .logo-area { text-align: right; }
+#c3 .logo-area .logo { font-family: 'Cormorant Garamond', serif; font-weight: 300; font-size: 15px; letter-spacing: 0.45em; color: #c9a96e; text-transform: uppercase; display: block; margin-bottom: 8px; }
+#c3 .cta-link { font-family: 'Instrument Sans', sans-serif; font-size: 10px; letter-spacing: 0.2em; color: rgba(255,255,255,0.3); text-transform: uppercase; text-decoration: none; border-bottom: 1px solid rgba(255,255,255,0.15); padding-bottom: 2px; cursor: pointer; transition: color 0.2s; }
+#c3 .cta-link:hover { color: #c9a96e; border-color: #c9a96e; }
+#c3 .top-bar-c3 { position: absolute; top: 0; left: 0; right: 0; z-index: 3; display: flex; justify-content: space-between; align-items: center; padding: 20px 80px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+#c3 .top-bar-c3 .tl { font-family: 'Instrument Sans', sans-serif; font-size: 10px; letter-spacing: 0.3em; color: rgba(255,255,255,0.2); text-transform: uppercase; }
+
+/* ─── CONCEPT 4 ─── */
+#c4 { position: relative; background: #050505; cursor: default; }
+#c4 .bg { position: absolute; inset: 0; background-size: cover; background-position: center 40%; opacity: 0; filter: brightness(1.0); transition: opacity 2.5s ease; }
+#c4 .bg.revealed { opacity: 1; }
+#c4 .content { position: relative; z-index: 2; height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0; }
+#c4 .logo { font-family: 'Cormorant Garamond', serif; font-weight: 300; font-size: clamp(12px,1.5vw,16px); letter-spacing: 0.6em; color: #c9a96e; text-transform: uppercase; opacity: 0; transform: translateY(8px); transition: opacity 1s ease 0.5s, transform 1s ease 0.5s; }
+#c4 .logo.show { opacity: 1; transform: translateY(0); }
+#c4 .thin-line { width: 1px; height: 0; background: rgba(201,169,110,0.4); margin: 32px auto; transition: height 1.2s ease 1s; }
+#c4 .thin-line.show { height: 80px; }
+#c4 .headline { font-family: 'Cormorant Garamond', serif; font-weight: 300; font-size: clamp(24px,3.5vw,44px); color: #fff; text-align: center; letter-spacing: 0.06em; line-height: 1.3; text-shadow: 0 2px 40px rgba(0,0,0,0.9), 0 0 100px rgba(0,0,0,0.7); opacity: 0; transform: translateY(12px); transition: opacity 1.2s ease 1.4s, transform 1.2s ease 1.4s; }
+#c4 .headline.show { opacity: 1; transform: translateY(0); }
+#c4 .email-area { margin-top: 48px; display: flex; flex-direction: column; align-items: center; gap: 16px; opacity: 0; transition: opacity 1s ease 2.2s; }
+#c4 .email-area.show { opacity: 1; }
+#c4 .email-label { font-family: 'Instrument Sans', sans-serif; font-size: 10px; letter-spacing: 0.3em; color: rgba(255,255,255,0.25); text-transform: uppercase; }
+#c4 .email-input-row { display: flex; gap: 0; }
+#c4 input { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); border-right: none; color: #f5f0e8; font-family: 'Instrument Sans', sans-serif; font-size: 13px; letter-spacing: 0.05em; padding: 14px 24px; width: 260px; outline: none; transition: border-color 0.3s; }
+#c4 input:focus { border-color: rgba(201,169,110,0.4); }
+#c4 input::placeholder { color: rgba(255,255,255,0.2); }
+#c4 .send-btn { background: transparent; border: 1px solid rgba(201,169,110,0.4); color: #c9a96e; font-family: 'Instrument Sans', sans-serif; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; padding: 14px 20px; cursor: pointer; transition: all 0.3s; }
+#c4 .send-btn:hover { background: rgba(201,169,110,0.1); }
+#c4 .countdown { position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%); text-align: center; opacity: 0; transition: opacity 1s ease 2.8s; z-index: 2; }
+#c4 .countdown.show { opacity: 1; }
+#c4 .countdown .label { font-family: 'Instrument Sans', sans-serif; font-size: 9px; letter-spacing: 0.3em; color: rgba(255,255,255,0.2); text-transform: uppercase; margin-bottom: 8px; }
+#c4 .countdown .date { font-family: 'Cormorant Garamond', serif; font-size: 18px; font-weight: 300; letter-spacing: 0.15em; color: rgba(201,169,110,0.6); }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════
+     SCROLL-DRIVEN VIDEO HERO
+════════════════════════════════════════ -->
+<section id="scroll-hero">
+  <div id="scroll-sticky">
+
+    <!-- Video scrubbing from Cloudflare R2 -->
+    <video id="scroll-video" muted playsinline autoplay preload="auto">
+      <source src="https://pub-2c1451135f624e6a876fabdcf4d107fc.r2.dev/video.mp4" type="video/mp4">
+    </video>
+
+    <!-- Watermark cover -->
+    <div id="wm-cover"></div>
+
+    <!-- Side accent bar -->
+    <div class="side-bar"></div>
+
+    <!-- Top bar -->
+    <div class="top-bar">
+      <span class="tl logo-tl">Saloon.world</span>
+    </div>
+
+    <!-- Stage counter dots -->
+    <div class="stage-counter">
+      <div class="stage-dot active" id="dot-0"></div>
+      <div class="stage-dot" id="dot-1"></div>
+      <div class="stage-dot" id="dot-2"></div>
+    </div>
+
+    <!-- STAGE 1: Front reveal (0–33%) -->
+    <div class="stage-text active" id="stage-1">
+      <div class="stage-eyebrow">The Marketplace</div>
+      <h1 class="stage-headline" style="font-family: &quot;Playfair Display&quot;">
+        This is Saloon.world
+      </h1>
+      <h2 class="stage-price" style="font-size: clamp(14px, 1.4vw, 24px);">The world's first curated marketplace<br>for luxury saloons.</h2>
+      <p class="stage-price" style="font-size:clamp(14px, 1.4vw, 24px); margin-top:0;">Powered by data, selection algorithms,<br>and a new tech approach<br>to luxury automotive sales.</p>
+      <p class="stage-desc" style="font-size:18px; color:rgba(245,240,232,0.6); margin-bottom:8px;">S-Class · Maybach · Bentley · Rolls-Royce<br>Each one earned its place here.</p>
+      <p class="stage-desc" style="font-size:18px; color:rgba(245,240,232,0.6); margin-top:4px;">Want to know more? Scroll down. ↓</p>
+    </div>
+
+    <!-- Scroll indicator -->
+    <div id="scroll-indicator">
+      <span>SCROLL</span>
+      <div class="scroll-line"></div>
+    </div>
+
+    <!-- STAGE 2: Profile (34–66%) -->
+    <div class="stage-text" id="stage-2">
+      <div class="stage-eyebrow">Opening Arrival · End of May 2026</div>
+      <h1 class="stage-headline" style="font-family: &quot;Playfair Display&quot;">
+        Mercedes-Benz S 580 Lang<br>One of the first in Europe
+      </h1>
+      <h2 class="stage-price">1xx 000 euro</h2>
+      <p class="stage-desc" style="font-size:18px; color:rgba(245,240,232,0.6); margin-bottom:8px;">Want to know the price? Scroll down. ↓</p>
+    </div>
+
+    <!-- STAGE 3: Rear / full reveal (67–100%) -->
+    <div class="stage-text" id="stage-3">
+      <div class="stage-eyebrow">Early Access</div>
+      <h1 class="stage-headline" style="font-family: &quot;Playfair Display&quot;">
+        Reserve your place
+      </h1>
+      <h2 class="stage-price" style="font-size: clamp(14px, 1.4vw, 24px);">Early access is limited.<br>Request your place.</h2>
+      <p class="stage-desc" style="font-size:13px; color:rgba(245,240,232,0.4); margin-bottom:12px; margin-top:-8px;">First curated listings go live in May. Access is limited.</p>
+      <div class="stage-form">
+        <div class="stage-form-toggle">
+          <button class="form-toggle active" id="toggle-buyer">Private Buyer</button>
+          <button class="form-toggle" id="toggle-company">Company · Dealer</button>
+        </div>
+        <p class="form-microcopy" id="form-microcopy">Looking for something specific?</p>
+        <form id="waitlist-form">
+          <input type="hidden" name="type" id="form-type" value="private" />
+          <input type="hidden" name="utm_source" id="f-utm-source" value="" />
+          <input type="hidden" name="utm_medium" id="f-utm-medium" value="" />
+          <input type="hidden" name="utm_campaign" id="f-utm-campaign" value="" />
+          <input type="hidden" name="utm_content" id="f-utm-content" value="" />
+          <input type="hidden" name="landing_path" id="f-landing-path" value="" />
+          <input type="hidden" name="referrer" id="f-referrer" value="" />
+          <div class="form-fields-row">
+            <input class="stage-input" style="flex:1.5;" type="email" name="email" placeholder="your@email.com" required />
+            <select class="stage-select" name="country" style="flex:1;">
+              <option value="" disabled selected>Select country</option>
+              <option value="Germany">Germany</option>
+              <option value="UAE">UAE</option>
+              <option value="United Kingdom">United Kingdom</option>
+              <option value="Poland">Poland</option>
+              <option value="Switzerland">Switzerland</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+          <div class="form-fields-dynamic" id="fields-private">
+            <select class="stage-select" name="budget">
+              <option value="" disabled selected>Budget range</option>
+              <option value="€100k–150k">€100k–150k</option>
+              <option value="€150k–250k">€150k–250k</option>
+              <option value="€250k–500k">€250k–500k</option>
+              <option value="€500k+">€500k+</option>
+            </select>
+          </div>
+          <div class="form-fields-dynamic" id="fields-dealer" style="display:none;">
+            <input class="stage-input" type="text" name="company_name" placeholder="Company name" />
+            <select class="stage-select" name="inventory_size">
+              <option value="" disabled selected>Inventory size</option>
+              <option value="1–5 cars">1–5 cars</option>
+              <option value="5–20 cars">5–20 cars</option>
+              <option value="20+ cars">20+ cars</option>
+            </select>
+          </div>
+          <div class="stage-form-row" style="margin-top:10px;">
+            <button class="stage-submit" type="submit">Apply for access →</button>
+          </div>
+        </form>
+        <p class="form-confirm" style="display:none;font-family:'Instrument Sans',sans-serif;font-size:13px;color:#c9a96e;letter-spacing:0.05em;margin-top:8px;">✓ &nbsp;Request received. We'll be in touch before launch.</p>
+      </div>
+    </div>
+
+    <!-- Progress bar -->
+    <div id="progress-bar"></div>
+
+  </div>
+</section>
+
+<script>
+  // ─── VIDEO SCRUBBING ───
+  const video = document.getElementById('scroll-video');
+  const hero = document.getElementById('scroll-hero');
+  const progressBar = document.getElementById('progress-bar');
+  const stages = [
+    document.getElementById('stage-1'),
+    document.getElementById('stage-2'),
+    document.getElementById('stage-3')
+  ];
+  const dots = [
+    document.getElementById('dot-0'),
+    document.getElementById('dot-1'),
+    document.getElementById('dot-2')
+  ];
+
+  const stageBreaks = [0, 0.33, 0.66, 1.0];
+  let currentStage = 0;
+  let ticking = false;
+
+  function getScrollProgress() {
+    const rect = hero.getBoundingClientRect();
+    const totalHeight = hero.offsetHeight - window.innerHeight;
+    const scrolled = Math.max(0, -rect.top);
+    return Math.min(1, Math.max(0, scrolled / totalHeight));
+  }
+
+  function getStageIndex(progress) {
+    if (progress < stageBreaks[1]) return 0;
+    if (progress < stageBreaks[2]) return 1;
+    return 2;
+  }
+
+  function updateScroll() {
+    const progress = getScrollProgress();
+
+    // Scrub video
+    if (video.readyState >= 2 && video.duration) {
+      video.currentTime = progress * video.duration;
+    }
+
+    // Progress bar
+    progressBar.style.width = (progress * 100) + '%';
+
+    // Stage text
+    const newStage = getStageIndex(progress);
+    if (newStage !== currentStage) {
+      stages[currentStage].classList.remove('active');
+      dots[currentStage].classList.remove('active');
+      currentStage = newStage;
+      stages[currentStage].classList.add('active');
+      dots[currentStage].classList.add('active');
+    }
+
+    // Scroll indicator
+    const scrollIndicator = document.getElementById('scroll-indicator');
+    if (scrollIndicator) {
+      if (progress > 0.02) {
+        scrollIndicator.style.opacity = '0';
+        scrollIndicator.style.transition = 'opacity 0.5s';
+      } else {
+        scrollIndicator.style.opacity = '0.4';
+      }
+    }
+
+    ticking = false;
+  }
+
+  window.addEventListener('scroll', () => {
+    if (!ticking) {
+      requestAnimationFrame(updateScroll);
+      ticking = true;
+    }
+  }, { passive: true });
+
+  // Update on video metadata loaded
+  video.addEventListener('loadedmetadata', updateScroll);
+
+  updateScroll();
+
+  // Persist scroll
+  window.addEventListener('beforeunload', () => {
+    localStorage.setItem('saloon_scroll', window.scrollY);
+  });
+  const savedScroll = localStorage.getItem('saloon_scroll');
+  if (savedScroll) window.scrollTo(0, parseInt(savedScroll, 10));
+
+  // Tracking params
+  const urlParams = new URLSearchParams(window.location.search);
+  document.getElementById('f-utm-source').value = urlParams.get('utm_source') || '';
+  document.getElementById('f-utm-medium').value = urlParams.get('utm_medium') || '';
+  document.getElementById('f-utm-campaign').value = urlParams.get('utm_campaign') || '';
+  document.getElementById('f-utm-content').value = urlParams.get('utm_content') || '';
+  document.getElementById('f-landing-path').value = window.location.pathname;
+  document.getElementById('f-referrer').value = document.referrer || '';
+
+  // Toggle buttons
+  let selectedType = 'private';
+  document.querySelectorAll('.form-toggle').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.form-toggle').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      selectedType = btn.id === 'toggle-buyer' ? 'private' : 'company';
+      document.getElementById('form-type').value = selectedType;
+      document.getElementById('fields-private').style.display = selectedType === 'private' ? 'flex' : 'none';
+      document.getElementById('fields-dealer').style.display = selectedType === 'company' ? 'flex' : 'none';
+      document.getElementById('form-microcopy').textContent = selectedType === 'private'
+        ? 'Looking for something specific?'
+        : 'List your inventory on Saloon.world';
+    });
+  });
+
+  // Form submission via AJAX
+  document.getElementById('waitlist-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const email = form.email.value.trim();
+    const btn = document.querySelector('.stage-submit');
+    btn.textContent = 'Sending...';
+    btn.disabled = true;
+
+    const payload = {
+      email,
+      type: selectedType,
+      country: form.country.value,
+      utm_source: form.utm_source.value,
+      utm_medium: form.utm_medium.value,
+      utm_campaign: form.utm_campaign.value,
+      utm_content: form.utm_content.value,
+      landing_path: form.landing_path.value,
+      referrer: form.referrer.value,
+    };
+    if (selectedType === 'private') {
+      payload.budget = form.budget ? form.budget.value : '';
+    } else {
+      payload.company_name = form.company_name ? form.company_name.value : '';
+      payload.inventory_size = form.inventory_size ? form.inventory_size.value : '';
+    }
+
+    try {
+      await fetch('https://submit-form.com/QLRr5WVAx', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+    } catch(err) {}
+    window.location.href = 'thank-you.html';
+  });
+
+</script>
+</body>
+</html>
